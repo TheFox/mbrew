@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>mbrew(1) - A Package Manager for Music.</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#SYNOPSIS">SYNOPSIS</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#INSTALL">INSTALL</a>
+    <a href="#COMMANDS">COMMANDS</a>
+    <a href="#FILE-SYSTEM">FILE SYSTEM</a>
+    <a href="#ENCRYPTION">ENCRYPTION</a>
+    <a href="#DEVELOPMENT-STAGE">DEVELOPMENT STAGE</a>
+    <a href="#EXAMPLES">EXAMPLES</a>
+    <a href="#ONLINE-RESCOURCES">ONLINE RESCOURCES</a>
+    <a href="#BUGS">BUGS</a>
+    <a href="#COPYRIGHT">COPYRIGHT</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>mbrew(1)</li>
+    <li class='tc'>MusicBrew Manual</li>
+    <li class='tr'>mbrew(1)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>mbrew</code> - <span class="man-whatis">A Package Manager for Music.</span>
+</p>
+
+<h2 id="SYNOPSIS">SYNOPSIS</h2>
+
+<p><code>mbrew</code> <var>command</var> [-h] [<var>args</var>]</p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p><strong>MBrew</strong> (<em>MusicBrew</em>) is a combination of Spotify and Homebrew (<a href="http://brew.sh/" data-bare-link="true">http://brew.sh/</a>). Like a package manager for software but for music. It's made to use it via comand-line. You can install all songs by a specified band, for example from ABBA via <code>music install ABBA</code>. The .mp3 files will be downloaded from a central server to your local music collection. The search acts like on a traditional package manager, for example via <code>music search AC/DC</code>. Like on Homebrew, each song file gets a <em>formula</em>/meta file. These files will be searched locally when the search command is used. On <code>music update</code> all meta files will be updated through Git. The <code>music upgrade</code> command is used to upgrade all existing artists. New songs will be downloaded.</p>
+
+<h2 id="INSTALL">INSTALL</h2>
+
+<p>The preferred method of installation is via RubyGems.org:<br />
+<a href="https://rubygems.org/gems/mbrew" data-bare-link="true">https://rubygems.org/gems/mbrew</a></p>
+
+<pre><code>gem install mbrew
+</code></pre>
+
+<p>or via <code>Gemfile</code>:</p>
+
+<pre><code>gem 'mbrew', '~&gt;0.1.0'
+</code></pre>
+
+<p>Use it in your sources:</p>
+
+<pre><code>require 'mbrew'
+</code></pre>
+
+<h2 id="COMMANDS">COMMANDS</h2>
+
+<dl>
+<dt><code>clone &lt;url> [&lt;dir&gt;]</code></dt><dd><p>Clone a library. <em>url</em> is the base HTTP URL where the library is located. <em>dir</em> (optional) is the destination directory where the cloned library should be placed locally.</p></dd>
+<dt><code>init [&lt;dir&gt;]</code></dt><dd><p>Create a new library. Typically you do this in your main collection. <em>dir</em> (optional, default: current working directory) is the destination directory. A <code>.mbrew</code> directory will be created under the destination directory.</p></dd>
+<dt class="flush"><code>push</code></dt><dd><p>This function is currently not available. You need to upload the <code>.mbrew</code> directory manually to a server.</p></dd>
+<dt><code>add [-R] &lt;files...&gt;</code></dt><dd><p>Add new files to your library. <em>files...</em> could be one or more files or one or more directories. <code>-R</code> adds directories recursively. Without <code>-R</code> only .mp3 files in the first level will be added.</p></dd>
+<dt class="flush"><code>commit</code></dt><dd><p>Like on Git, after adding files you need to commit the changes.</p></dd>
+<dt class="flush"><code>status</code></dt><dd><p>Like on Git, list the current added staging changes.</p></dd>
+<dt><code>list [-f]</code></dt><dd><p>List all artists available by the current index.<br />
+<code>-f</code>: List all files available by the current index.</p></dd>
+<dt><code>info &lt;artists...&gt;</code></dt><dd><p>Show informations about specified artists.</p></dd>
+<dt><code>search &lt;pattern></code></dt><dd><p>Search for an artist. The index</p></dd>
+<dt><code>install &lt;artists...&gt;</code></dt><dd><p>Download and install all .mp3 files from one or more specified artists.</p></dd>
+<dt><code>uninstall &lt;artists...&gt;</code></dt><dd><p>Remove installed artists.</p></dd>
+<dt class="flush"><code>update</code></dt><dd><p>This will update the <code>index</code> (Git) directory and its meta files.</p></dd>
+<dt class="flush"><code>upgrade</code></dt><dd><p>Install all new songs from previously installed artists. Maybe you would like to <code>update</code> your local index before installing new songs.</p></dd>
+</dl>
+
+
+<h2 id="FILE-SYSTEM">FILE SYSTEM</h2>
+
+<p>All files appropriated to a MBrew library are located under <code>.mbrew</code> directory. This directory will be created by <code>mbrew init</code> or <code>mbrew clone</code>.</p>
+
+<h3 id="Data-Directory">Data Directory</h3>
+
+<p>In the <code>data</code> directory all encrypted copies of the original .mp3 files are stored.</p>
+
+<h3 id="Index-Directory">Index Directory</h3>
+
+<p>The <code>index</code> directory contains a Git repository which contains <a href="#Index-File" data-bare-link="true">Index Files</a>.</p>
+
+<h3 id="Index-File">Index File</h3>
+
+<p>Each index file contain informations (paths, ID3 tags) about the original .mp3 file.</p>
+
+<h3 id="Example-Structure">Example Structure</h3>
+
+<p>This is what the structure of a MBrew library looks like:</p>
+
+<pre><code>$ tree .mbrew/
+.mbrew/
+|-- config.yml
+|-- data
+|   \-- directories...
+|-- index
+|   \-- directories...
+|-- installed.yml
+\-- tmp
+</code></pre>
+
+<h2 id="ENCRYPTION">ENCRYPTION</h2>
+
+<p>Since it's not legal in most of the countries on planet earth to copy and distribute copyright protected music it's highly recommended to encrypt the .mp3 files. This will be done with the best encryption software ever been made: <a href="https://gnupg.org/">GnuPG</a>. Beside the aspect of the copyright there is also the aspect to encrypt your files when using blank HTTP (instead of HTTPS).</p>
+
+<p><strong>SECURITY NOTE</strong>: In the current version the files will be encrypted symmetric with passphrase <code>supersecret2015</code>. Of course this isn't the security we want for this tool, but better than nothing. In further versions (>= 1.0.0) asymmetric encryption should be enabled.</p>
+
+<h2 id="DEVELOPMENT-STAGE">DEVELOPMENT STAGE</h2>
+
+<p><strong>THIS SOFTWARE IS IN DEVELOPMENT STAGE. IT'S NOT RECOMMENDED DO USE IT IN PRODUCTION.</strong></p>
+
+<p>Version &lt; 1.0.0 indicates that the version is unstable and under development. More information on <a href="http://semver.org/" data-bare-link="true">http://semver.org/</a>.</p>
+
+<h2 id="EXAMPLES">EXAMPLES</h2>
+
+<p>In all examples, assumed that your collection looks something like this:</p>
+
+<pre><code>$ tree ~/Music
+~/Music
+|-- Artists
+|   |-- Artist1
+|   |   \-- .mp3 files...
+|   |-- Artist2
+|   |   \-- .mp3 files...
+|   |-- Artist3
+|   |   \-- .mp3 files...
+|   \-- Artist4
+|       \-- .mp3 files...
+|-- CDs
+\-- iTunes
+</code></pre>
+
+<h3 id="Create-A-New-Library">Create A New Library</h3>
+
+<p>You can <em>init</em> a new library in <code>~/Music</code> with this ways:</p>
+
+<ul>
+<li><code>mbrew init ~/Music</code></li>
+<li><code>cd ~/Music; mbrew init</code></li>
+</ul>
+
+
+<h3 id="Add-Music-To-The-Library">Add Music To The Library</h3>
+
+<p>After <code>init</code>, you need to add files. Assumed that you first <code>cd ~/Music</code>.</p>
+
+<ul>
+<li><code>mbrew add Artist/Artist1</code></li>
+<li><code>mbrew add Artist/Artist1/Song1.mp3</code></li>
+<li><code>cd Artist/Artist1; mbrew add Song1.mp3</code></li>
+</ul>
+
+
+<h3 id="Clone-A-Library-From-PC-A-to-PC-B">Clone A Library From PC A to PC B</h3>
+
+<p>In this example we want to create a library on <strong>PC A</strong> and clone it to <strong>PC B</strong>.</p>
+
+<p>First, you need to <code>push</code> your <code>.mbrew</code> directory from <strong>PC A</strong> to a HTTP server. In this example we assume that you upload the <code>.mbrew</code> directory to <a href="http://example.com/musiclib" data-bare-link="true">http://example.com/musiclib</a>. After done you can clone the library on <strong>PC B</strong>:</p>
+
+<pre><code>cd ~/Music
+mbrew clone http://example.com/musiclib lib
+cd lib
+mbrew install Artist2 Artist3
+</code></pre>
+
+<h3 id="Download-New-Songs-From-Installed-Artists">Download New Songs From Installed Artists</h3>
+
+<p>This will download and install new songs only from installed artists. Non-installed artists will be untouched.</p>
+
+<pre><code>mbrew update
+mbrew upgrade
+</code></pre>
+
+<h2 id="ONLINE-RESCOURCES">ONLINE RESCOURCES</h2>
+
+<ul>
+<li><a href="https://github.com/TheFox/mbrew">GitHub Project Page</a></li>
+<li><a href="https://rubygems.org/gems/mbrew">RubyGems Project Page</a></li>
+</ul>
+
+
+<h2 id="BUGS">BUGS</h2>
+
+<p>MBrew is written in Ruby and depends on GPG and Git. Report bugs to the <a href="https://github.com/TheFox/mbrew/issues">GitHub issues tracker</a>.</p>
+
+<h2 id="COPYRIGHT">COPYRIGHT</h2>
+
+<p>Copyright (C) 2015 Christian Mayer <a href="http://fox21.at" data-bare-link="true">http://fox21.at</a></p>
+
+<p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p>
+
+<p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <a href="http://www.gnu.org/licenses/" data-bare-link="true">http://www.gnu.org/licenses/</a>.</p>
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'>FOX21.at</li>
+    <li class='tc'>December 2015</li>
+    <li class='tr'>mbrew(1)</li>
+  </ol>
+
+  </div>
+</body>
+</html>

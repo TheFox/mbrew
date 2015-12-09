@@ -1,0 +1,262 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "MBREW" "1" "December 2015" "FOX21.at" "MusicBrew Manual"
+.
+.SH "NAME"
+\fBmbrew\fR \- A Package Manager for Music\.
+.
+.SH "SYNOPSIS"
+\fBmbrew\fR \fIcommand\fR [\-h] [\fIargs\fR]
+.
+.SH "DESCRIPTION"
+\fBMBrew\fR (\fIMusicBrew\fR) is a combination of Spotify and Homebrew (\fIhttp://brew\.sh/\fR)\. Like a package manager for software but for music\. It\'s made to use it via comand\-line\. You can install all songs by a specified band, for example from ABBA via \fBmusic install ABBA\fR\. The \.mp3 files will be downloaded from a central server to your local music collection\. The search acts like on a traditional package manager, for example via \fBmusic search AC/DC\fR\. Like on Homebrew, each song file gets a \fIformula\fR/meta file\. These files will be searched locally when the search command is used\. On \fBmusic update\fR all meta files will be updated through Git\. The \fBmusic upgrade\fR command is used to upgrade all existing artists\. New songs will be downloaded\.
+.
+.SH "INSTALL"
+The preferred method of installation is via RubyGems\.org:
+.
+.br
+\fIhttps://rubygems\.org/gems/mbrew\fR
+.
+.IP "" 4
+.
+.nf
+
+gem install mbrew
+.
+.fi
+.
+.IP "" 0
+.
+.P
+or via \fBGemfile\fR:
+.
+.IP "" 4
+.
+.nf
+
+gem \'mbrew\', \'~>0\.1\.0\'
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Use it in your sources:
+.
+.IP "" 4
+.
+.nf
+
+require \'mbrew\'
+.
+.fi
+.
+.IP "" 0
+.
+.SH "COMMANDS"
+.
+.TP
+\fBclone <url> [<dir>]\fR
+Clone a library\. \fIurl\fR is the base HTTP URL where the library is located\. \fIdir\fR (optional) is the destination directory where the cloned library should be placed locally\.
+.
+.TP
+\fBinit [<dir>]\fR
+Create a new library\. Typically you do this in your main collection\. \fIdir\fR (optional, default: current working directory) is the destination directory\. A \fB\.mbrew\fR directory will be created under the destination directory\.
+.
+.TP
+\fBpush\fR
+This function is currently not available\. You need to upload the \fB\.mbrew\fR directory manually to a server\.
+.
+.TP
+\fBadd [\-R] <files\.\.\.>\fR
+Add new files to your library\. \fIfiles\.\.\.\fR could be one or more files or one or more directories\. \fB\-R\fR adds directories recursively\. Without \fB\-R\fR only \.mp3 files in the first level will be added\.
+.
+.TP
+\fBcommit\fR
+Like on Git, after adding files you need to commit the changes\.
+.
+.TP
+\fBstatus\fR
+Like on Git, list the current added staging changes\.
+.
+.TP
+\fBlist [\-f]\fR
+List all artists available by the current index\.
+.
+.br
+\fB\-f\fR: List all files available by the current index\.
+.
+.TP
+\fBinfo <artists\.\.\.>\fR
+Show informations about specified artists\.
+.
+.TP
+\fBsearch <pattern>\fR
+Search for an artist\. The index
+.
+.TP
+\fBinstall <artists\.\.\.>\fR
+Download and install all \.mp3 files from one or more specified artists\.
+.
+.TP
+\fBuninstall <artists\.\.\.>\fR
+Remove installed artists\.
+.
+.TP
+\fBupdate\fR
+This will update the \fBindex\fR (Git) directory and its meta files\.
+.
+.TP
+\fBupgrade\fR
+Install all new songs from previously installed artists\. Maybe you would like to \fBupdate\fR your local index before installing new songs\.
+.
+.SH "FILE SYSTEM"
+All files appropriated to a MBrew library are located under \fB\.mbrew\fR directory\. This directory will be created by \fBmbrew init\fR or \fBmbrew clone\fR\.
+.
+.SS "Data Directory"
+In the \fBdata\fR directory all encrypted copies of the original \.mp3 files are stored\.
+.
+.SS "Index Directory"
+The \fBindex\fR directory contains a Git repository which contains \fIIndex Files\fR\.
+.
+.SS "Index File"
+Each index file contain informations (paths, ID3 tags) about the original \.mp3 file\.
+.
+.SS "Example Structure"
+This is what the structure of a MBrew library looks like:
+.
+.IP "" 4
+.
+.nf
+
+$ tree \.mbrew/
+\.mbrew/
+|\-\- config\.yml
+|\-\- data
+|   \e\-\- directories\.\.\.
+|\-\- index
+|   \e\-\- directories\.\.\.
+|\-\- installed\.yml
+\e\-\- tmp
+.
+.fi
+.
+.IP "" 0
+.
+.SH "ENCRYPTION"
+Since it\'s not legal in most of the countries on planet earth to copy and distribute copyright protected music it\'s highly recommended to encrypt the \.mp3 files\. This will be done with the best encryption software ever been made: GnuPG \fIhttps://gnupg\.org/\fR\. Beside the aspect of the copyright there is also the aspect to encrypt your files when using blank HTTP (instead of HTTPS)\.
+.
+.P
+\fBSECURITY NOTE\fR: In the current version the files will be encrypted symmetric with passphrase \fBsupersecret2015\fR\. Of course this isn\'t the security we want for this tool, but better than nothing\. In further versions (>= 1\.0\.0) asymmetric encryption should be enabled\.
+.
+.SH "DEVELOPMENT STAGE"
+\fBTHIS SOFTWARE IS IN DEVELOPMENT STAGE\. IT\'S NOT RECOMMENDED DO USE IT IN PRODUCTION\.\fR
+.
+.P
+Version < 1\.0\.0 indicates that the version is unstable and under development\. More information on \fIhttp://semver\.org/\fR\.
+.
+.SH "EXAMPLES"
+In all examples, assumed that your collection looks something like this:
+.
+.IP "" 4
+.
+.nf
+
+$ tree ~/Music
+~/Music
+|\-\- Artists
+|   |\-\- Artist1
+|   |   \e\-\- \.mp3 files\.\.\.
+|   |\-\- Artist2
+|   |   \e\-\- \.mp3 files\.\.\.
+|   |\-\- Artist3
+|   |   \e\-\- \.mp3 files\.\.\.
+|   \e\-\- Artist4
+|       \e\-\- \.mp3 files\.\.\.
+|\-\- CDs
+\e\-\- iTunes
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Create A New Library"
+You can \fIinit\fR a new library in \fB~/Music\fR with this ways:
+.
+.IP "\(bu" 4
+\fBmbrew init ~/Music\fR
+.
+.IP "\(bu" 4
+\fBcd ~/Music; mbrew init\fR
+.
+.IP "" 0
+.
+.SS "Add Music To The Library"
+After \fBinit\fR, you need to add files\. Assumed that you first \fBcd ~/Music\fR\.
+.
+.IP "\(bu" 4
+\fBmbrew add Artist/Artist1\fR
+.
+.IP "\(bu" 4
+\fBmbrew add Artist/Artist1/Song1\.mp3\fR
+.
+.IP "\(bu" 4
+\fBcd Artist/Artist1; mbrew add Song1\.mp3\fR
+.
+.IP "" 0
+.
+.SS "Clone A Library From PC A to PC B"
+In this example we want to create a library on \fBPC A\fR and clone it to \fBPC B\fR\.
+.
+.P
+First, you need to \fBpush\fR your \fB\.mbrew\fR directory from \fBPC A\fR to a HTTP server\. In this example we assume that you upload the \fB\.mbrew\fR directory to \fIhttp://example\.com/musiclib\fR\. After done you can clone the library on \fBPC B\fR:
+.
+.IP "" 4
+.
+.nf
+
+cd ~/Music
+mbrew clone http://example\.com/musiclib lib
+cd lib
+mbrew install Artist2 Artist3
+.
+.fi
+.
+.IP "" 0
+.
+.SS "Download New Songs From Installed Artists"
+This will download and install new songs only from installed artists\. Non\-installed artists will be untouched\.
+.
+.IP "" 4
+.
+.nf
+
+mbrew update
+mbrew upgrade
+.
+.fi
+.
+.IP "" 0
+.
+.SH "ONLINE RESCOURCES"
+.
+.IP "\(bu" 4
+GitHub Project Page \fIhttps://github\.com/TheFox/mbrew\fR
+.
+.IP "\(bu" 4
+RubyGems Project Page \fIhttps://rubygems\.org/gems/mbrew\fR
+.
+.IP "" 0
+.
+.SH "BUGS"
+MBrew is written in Ruby and depends on GPG and Git\. Report bugs to the GitHub issues tracker \fIhttps://github\.com/TheFox/mbrew/issues\fR\.
+.
+.SH "COPYRIGHT"
+Copyright (C) 2015 Christian Mayer \fIhttp://fox21\.at\fR
+.
+.P
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version\.
+.
+.P
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE\. See the GNU General Public License for more details\. You should have received a copy of the GNU General Public License along with this program\. If not, see \fIhttp://www\.gnu\.org/licenses/\fR\.

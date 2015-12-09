@@ -1,0 +1,177 @@
+mbrew(1) -- A Package Manager for Music.
+========================================
+
+## SYNOPSIS
+
+`mbrew` <command> [-h] [<args>]
+
+## DESCRIPTION
+
+**MBrew** (*MusicBrew*) is a combination of Spotify and Homebrew (<http://brew.sh/>). Like a package manager for software but for music. It's made to use it via comand-line. You can install all songs by a specified band, for example from ABBA via `music install ABBA`. The .mp3 files will be downloaded from a central server to your local music collection. The search acts like on a traditional package manager, for example via `music search AC/DC`. Like on Homebrew, each song file gets a *formula*/meta file. These files will be searched locally when the search command is used. On `music update` all meta files will be updated through Git. The `music upgrade` command is used to upgrade all existing artists. New songs will be downloaded.
+
+## INSTALL
+
+The preferred method of installation is via RubyGems.org:  
+<https://rubygems.org/gems/mbrew>
+
+	gem install mbrew
+
+or via `Gemfile`:
+
+	gem 'mbrew', '~>0.1.0'
+
+Use it in your sources:
+
+	require 'mbrew'
+
+## COMMANDS
+
+- `clone <url> [<dir>]`:
+Clone a library. _url_ is the base HTTP URL where the library is located. _dir_ (optional) is the destination directory where the cloned library should be placed locally.
+
+- `init [<dir>]`:
+Create a new library. Typically you do this in your main collection. _dir_ (optional, default: current working directory) is the destination directory. A `.mbrew` directory will be created under the destination directory.
+
+- `push`:
+This function is currently not available. You need to upload the `.mbrew` directory manually to a server.
+
+- `add [-R] <files...>`:
+Add new files to your library. _files..._ could be one or more files or one or more directories. `-R` adds directories recursively. Without `-R` only .mp3 files in the first level will be added.
+
+- `commit`:
+Like on Git, after adding files you need to commit the changes.
+
+- `status`:
+Like on Git, list the current added staging changes.
+
+- `list [-f]`:
+List all artists available by the current index.  
+`-f`: List all files available by the current index.
+
+- `info <artists...>`:
+Show informations about specified artists.
+
+- `search <pattern>`:
+Search for an artist. The index
+
+- `install <artists...>`:
+Download and install all .mp3 files from one or more specified artists.
+
+- `uninstall <artists...>`:
+Remove installed artists.
+
+- `update`:
+This will update the `index` (Git) directory and its meta files.
+
+- `upgrade`:
+Install all new songs from previously installed artists. Maybe you would like to `update` your local index before installing new songs.
+
+## FILE SYSTEM
+
+All files appropriated to a MBrew library are located under `.mbrew` directory. This directory will be created by `mbrew init` or `mbrew clone`.
+
+### Data Directory
+
+In the `data` directory all encrypted copies of the original .mp3 files are stored.
+
+### Index Directory
+
+The `index` directory contains a Git repository which contains [Index Files](#Index-File).
+
+### Index File
+
+Each index file contain informations (paths, ID3 tags) about the original .mp3 file.
+
+### Example Structure
+
+This is what the structure of a MBrew library looks like:
+
+	$ tree .mbrew/
+	.mbrew/
+	|-- config.yml
+	|-- data
+	|	\-- directories...
+	|-- index
+	|	\-- directories...
+	|-- installed.yml
+	\-- tmp
+
+## ENCRYPTION
+
+Since it's not legal in most of the countries on planet earth to copy and distribute copyright protected music it's highly recommended to encrypt the .mp3 files. This will be done with the best encryption software ever been made: [GnuPG](https://gnupg.org/). Beside the aspect of the copyright there is also the aspect to encrypt your files when using blank HTTP (instead of HTTPS).
+
+**SECURITY NOTE**: In the current version the files will be encrypted symmetric with passphrase `supersecret2015`. Of course this isn't the security we want for this tool, but better than nothing. In further versions (>= 1.0.0) asymmetric encryption should be enabled.
+
+## DEVELOPMENT STAGE
+
+**THIS SOFTWARE IS IN DEVELOPMENT STAGE. IT'S NOT RECOMMENDED DO USE IT IN PRODUCTION.**
+
+Version < 1.0.0 indicates that the version is unstable and under development. More information on <http://semver.org/>.
+
+## EXAMPLES
+
+In all examples, assumed that your collection looks something like this:
+
+	$ tree ~/Music
+	~/Music
+	|-- Artists
+	|	|-- Artist1
+	|	|	\-- .mp3 files...
+	|	|-- Artist2
+	|	|	\-- .mp3 files...
+	|	|-- Artist3
+	|	|	\-- .mp3 files...
+	|	\-- Artist4
+	|		\-- .mp3 files...
+	|-- CDs
+	\-- iTunes
+
+### Create A New Library
+
+You can *init* a new library in `~/Music` with this ways:
+
+- `mbrew init ~/Music`
+- `cd ~/Music; mbrew init`
+
+### Add Music To The Library
+
+After `init`, you need to add files. Assumed that you first `cd ~/Music`.
+
+- `mbrew add Artist/Artist1`
+- `mbrew add Artist/Artist1/Song1.mp3`
+- `cd Artist/Artist1; mbrew add Song1.mp3`
+
+### Clone A Library From PC A to PC B
+
+In this example we want to create a library on **PC A** and clone it to **PC B**.
+
+First, you need to `push` your `.mbrew` directory from **PC A** to a HTTP server. In this example we assume that you upload the `.mbrew` directory to <http://example.com/musiclib>. After done you can clone the library on **PC B**:
+
+	cd ~/Music
+	mbrew clone http://example.com/musiclib lib
+	cd lib
+	mbrew install Artist2 Artist3
+
+### Download New Songs From Installed Artists
+
+This will download and install new songs only from installed artists. Non-installed artists will be untouched.
+
+	mbrew update
+	mbrew upgrade
+
+## ONLINE RESCOURCES
+
+- [GitHub Project Page](https://github.com/TheFox/mbrew)
+- [RubyGems Project Page](https://rubygems.org/gems/mbrew)
+
+## BUGS
+
+MBrew is written in Ruby and depends on GPG and Git. Report bugs to the [GitHub issues tracker](https://github.com/TheFox/mbrew/issues).
+
+## COPYRIGHT
+
+Copyright (C) 2015 Christian Mayer <http://fox21.at>
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
