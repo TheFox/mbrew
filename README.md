@@ -4,7 +4,7 @@ MusicBrew is a combination of Spotify and [Homebrew](http://brew.sh/). Like a [p
 
 ## Documentation
 
-For all kinds of documentation see [`mbrew(1)`](http://mbrew.fox21.at/man/mbrew.1.html).
+For all kinds of documentation see [`mbrew(1)`](http://mbrew.fox21.at/).
 
 ## License
 Copyright (C) 2015 Christian Mayer <http://fox21.at>
