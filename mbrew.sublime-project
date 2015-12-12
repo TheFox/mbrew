@@ -5,12 +5,6 @@
 			"name": "MusicBrew",
 			"folder_exclude_patterns": [ ],
 			"file_exclude_patterns": [ ]
-		},
-		{
-			"path": "../mbrew_man",
-			"name": "Man",
-			"folder_exclude_patterns": [ ],
-			"file_exclude_patterns": [ ]
 		}
 	]
 }
