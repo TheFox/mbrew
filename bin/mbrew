@@ -47,7 +47,6 @@ def get_working_dir
 end
 
 working_dir = get_working_dir
-is_a_mbrew_lib = !working_dir.nil?
 
 mbrew = TheFox::MBrew::MBrew.new(working_dir)
 

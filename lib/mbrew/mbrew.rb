@@ -15,12 +15,26 @@ module TheFox
 		class MBrew
 			
 			def initialize(working_dir = '.')
-				working_dir = working_dir || '.'
+				puts "working_dir org: '#{working_dir}'"
+				
+				working_dir ||= '.'
+				
+				puts "working_dir alt: '#{working_dir}'"
 				
 				@working_dir = File.realpath(working_dir)
 				@working_dir_pn = Pathname.new(@working_dir)
+				puts "working_dir:  '#{@working_dir}'"
+				
 				@dotmbrew_dir = "#{@working_dir}/.mbrew"
-				@config = YAML.load_file("#{@dotmbrew_dir}/config.yml")
+				puts "dotmbrew_dir: '#{@dotmbrew_dir}'"
+				@is_a_mbrew_lib = Dir.exist?(@dotmbrew_dir)
+				
+				@config_path = "#{@dotmbrew_dir}/config.yml"
+				puts "config path:  '#{@config_path}'"
+				@config = nil
+				if @is_a_mbrew_lib && File.exist?(@config_path)
+					@config = YAML.load_file(@config_path)
+				end
 				
 				# puts "working_dir: '#{@working_dir}'"
 				# puts "config: '#{@config}'"
@@ -604,7 +618,8 @@ module TheFox
 			private
 			
 			def check_is_a_mbrew_lib
-				raise 'not a mbrew library.' if @working_dir.nil?
+				puts "check working dir: #{@working_dir}"
+				raise 'Not a mbrew library.' if !@is_a_mbrew_lib
 			end
 			
 			def check_staged_file
@@ -621,12 +636,14 @@ module TheFox
 			end
 			
 			def check_installed_file
-				Dir.chdir(@working_dir) do
-					Dir.chdir('.mbrew') do
-						if !File.exist?('installed.yml')
-							installed_yml = YAML::Store.new('installed.yml')
-							installed_yml.transaction do
-								installed_yml['artists'] = []
+				if @is_a_mbrew_lib
+					Dir.chdir(@working_dir) do
+						Dir.chdir('.mbrew') do
+							if !File.exist?('installed.yml')
+								installed_yml = YAML::Store.new('installed.yml')
+								installed_yml.transaction do
+									installed_yml['artists'] = []
+								end
 							end
 						end
 					end
