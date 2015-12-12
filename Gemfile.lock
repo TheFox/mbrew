@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mbrew (0.1.1)
+    mbrew (0.1.2)
       git (~> 1.2)
       highline (~> 1.7)
       id3lib-ruby (~> 0.6)
