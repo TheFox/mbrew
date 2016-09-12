@@ -139,16 +139,16 @@ when 'list'
 	options = {
 		:files => false,
 	}
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1}"
-		opts.separator('')
+	opts = OptionParser.new do |o|
+		o.banner = "Usage: mbrew #{command1}"
+		o.separator('')
 		
-		opts.on('-f', '--files', 'List files are available by the index.') do |v|
+		o.on('-f', '--files', 'List files are available by the index.') do |v|
 			options[:files] = true
 		end
 		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
+		o.on_tail('-h', '--help', 'Show this message.') do
+			puts o
 			puts
 			exit 3
 		end
@@ -162,12 +162,12 @@ when 'list'
 		puts list
 	end
 when 'info'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1} <names...>"
-		opts.separator('')
+	opts = OptionParser.new do |o|
+		o.banner = "Usage: mbrew #{command1} <names...>"
+		o.separator('')
 		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
+		o.on_tail('-h', '--help', 'Show this message.') do
+			puts o
 			puts
 			exit 3
 		end
@@ -186,12 +186,12 @@ when 'info'
 		end
 	end
 when 'search'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1} <names...>"
-		opts.separator('')
+	opts = OptionParser.new do |o|
+		o.banner = "Usage: mbrew #{command1} <names...>"
+		o.separator('')
 		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
+		o.on_tail('-h', '--help', 'Show this message.') do
+			puts o
 			puts
 			exit 3
 		end
@@ -212,12 +212,12 @@ when 'search'
 		puts 'Nothing found.'
 	end
 when 'install'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1} <names...>"
-		opts.separator('')
+	opts = OptionParser.new do |o|
+		o.banner = "Usage: mbrew #{command1} <names...>"
+		o.separator('')
 		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
+		o.on_tail('-h', '--help', 'Show this message.') do
+			puts o
 			puts
 			exit 3
 		end
@@ -227,12 +227,12 @@ when 'install'
 	
 	mbrew.install(artist_names)
 when 'uninstall'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1} <names...>"
-		opts.separator('')
+	opts = OptionParser.new do |o|
+		o.banner = "Usage: mbrew #{command1} <names...>"
+		o.separator('')
 		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
+		o.on_tail('-h', '--help', 'Show this message.') do
+			puts o
 			puts
 			exit 3
 		end
@@ -242,12 +242,12 @@ when 'uninstall'
 	
 	mbrew.uninstall(artist_names)
 when 'update'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1}"
-		opts.separator('')
+	opts = OptionParser.new do |o|
+		o.banner = "Usage: mbrew #{command1}"
+		o.separator('')
 		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
+		o.on_tail('-h', '--help', 'Show this message.') do
+			puts o
 			puts
 			exit 3
 		end
@@ -257,12 +257,12 @@ when 'update'
 	
 	mbrew.update
 when 'upgrade'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1}"
-		opts.separator('')
+	opts = OptionParser.new do |o|
+		o.banner = "Usage: mbrew #{command1}"
+		o.separator('')
 		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
+		o.on_tail('-h', '--help', 'Show this message.') do
+			puts o
 			puts
 			exit 3
 		end
