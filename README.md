@@ -7,7 +7,8 @@ MusicBrew is a combination of Spotify and [Homebrew](http://brew.sh/). Like a [p
 For all kinds of documentation see [`mbrew(1)`](http://mbrew.fox21.at/).
 
 ## License
-Copyright (C) 2015 Christian Mayer <http://fox21.at>
+
+Copyright (C) 2015 Christian Mayer <https://fox21.at>
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
