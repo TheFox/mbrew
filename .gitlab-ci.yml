@@ -1,0 +1,26 @@
+before_script:
+    - apt-get update -yqq
+    - 'which ssh-agent || ( apt-get install openssh-client -yqq --force-yes )'
+    - 'which rsync || ( apt-get install rsync -y --force-yes )'
+    - ruby -v
+    - gem update --system
+    - gem install bundler -v '~>1.11'
+    - bundler --version
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - mkdir -p ~/.ssh
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+stages:
+    - deploy
+
+deploy_to_production:
+    image: ruby:2.3
+    stage: deploy
+    environment: production
+    only:
+        - gh-pages
+    script:
+        - gem install ronn
+        - make man/mbrew.1
+        - ./bin/publish
