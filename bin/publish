@@ -11,4 +11,4 @@ if [ -f ./tmp/publish.config ]; then
 fi
 
 echo "rsync to '${RSYNC_USER}@${RSYNC_HOST}:${RSYNC_REMOTE_PATH}'"
-rsync -vurt --chmod=Du=rwx,Dgo=rx,Fu=rw,Fog=r --exclude=.DS_Store --exclude=.gitignore src/ man ${RSYNC_USER}@${RSYNC_HOST}:${RSYNC_REMOTE_PATH}
+rsync -vurtc --chmod=Du=rwx,Dgo=rx,Fu=rw,Fog=r --exclude=.DS_Store --exclude=.gitignore src/ man ${RSYNC_USER}@${RSYNC_HOST}:${RSYNC_REMOTE_PATH}
