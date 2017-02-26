@@ -8,7 +8,7 @@ before_script:
 stages:
     - release
 
-release_gem:
+release:
     image: ruby:2.3
     stage: release
     environment: release
