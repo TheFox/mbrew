@@ -14,7 +14,7 @@ before_script:
 stages:
     - deploy
 
-deploy_to_production:
+deploy:
     image: ruby:2.3
     stage: deploy
     environment: production
