@@ -6,9 +6,18 @@ SCRIPT_BASEDIR=$(dirname $0)
 set -e
 cd "${SCRIPT_BASEDIR}/.."
 
-if [ -f ./tmp/publish.config ]; then
-	. ./tmp/publish.config
+# Load Environment Variables
+[[ -f .env ]] && source .env
+
+if [[ -z "${RSYNC_USER}" ]] || [[ -z "${RSYNC_HOST}" ]] || [[ -z "${RSYNC_REMOTE_PATH}" ]] ; then
+	echo 'ERROR: one of the environment variables is missing'
+	echo "RSYNC_USER: '${RSYNC_USER}'"
+	echo "RSYNC_HOST: '${RSYNC_HOST}'"
+	echo "RSYNC_REMOTE_PATH: '${RSYNC_REMOTE_PATH}'"
+	exit 1
 fi
+
+which rsync &> /dev/null || { echo 'ERROR: rsync not found in PATH'; exit 1; }
 
 echo "rsync to '${RSYNC_USER}@${RSYNC_HOST}:${RSYNC_REMOTE_PATH}'"
 rsync -vurtc --chmod=Du=rwx,Dgo=rx,Fu=rw,Fog=r --exclude=.DS_Store --exclude=.gitignore src/ man ${RSYNC_USER}@${RSYNC_HOST}:${RSYNC_REMOTE_PATH}
