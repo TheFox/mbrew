@@ -15,7 +15,7 @@ stages:
     - deploy
 
 deploy:
-    image: ruby:2.3
+    image: ruby:2.4.0
     stage: deploy
     environment: production
     only:
