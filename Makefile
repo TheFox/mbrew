@@ -6,13 +6,11 @@ RM = rm -rf
 all: .env man/mbrew.1
 
 man/mbrew.1: man/mbrew.1.ronn
-	ronn -w --date=$(shell date +"%Y-%m-%d") --manual='MusicBrew Manual' --organization='FOX21.at' $<
+	ronn -w --date=$(shell date +"%F") --manual='MusicBrew Manual' --organization='FOX21.at' $<
 
 .PRECIOUS: .env
 .env:
-	echo 'RSYNC_HOST=' >> $@
-	echo 'RSYNC_USER=' >> $@
-	echo 'RSYNC_REMOTE_PATH=' >> $@
+	cp .env.example .env
 
 .PRECIOUS: tmp
 tmp:
