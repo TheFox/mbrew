@@ -7,41 +7,41 @@ require 'mbrew'
 
 
 if ARGV.count == 0
-	puts "MBrew #{TheFox::MBrew::VERSION}"
-	puts TheFox::MBrew::HOMEPAGE
-	puts
-	puts "Usage: mbrew <command> [-h] [<args>]"
-	puts
-	puts 'Commands:'
-	puts "\t clone"
-	puts "\t init"
-	#puts "\t push"
-	puts "\t add"
-	puts "\t commit"
-	puts "\t status"
-	puts "\t list"
-	puts "\t info"
-	puts "\t search"
-	puts "\t install"
-	puts "\t uninstall"
-	puts "\t update"
-	puts "\t upgrade"
-	puts
-	exit 3
+  puts "MBrew #{TheFox::MBrew::VERSION}"
+  puts TheFox::MBrew::HOMEPAGE
+  puts
+  puts "Usage: mbrew <command> [-h] [<args>]"
+  puts
+  puts 'Commands:'
+  puts "\t clone"
+  puts "\t init"
+  #puts "\t push"
+  puts "\t add"
+  puts "\t commit"
+  puts "\t status"
+  puts "\t list"
+  puts "\t info"
+  puts "\t search"
+  puts "\t install"
+  puts "\t uninstall"
+  puts "\t update"
+  puts "\t upgrade"
+  puts
+  exit 3
 end
 
 def get_working_dir
-	if Dir.exist?('.mbrew')
-		Dir.pwd
-	else
-		if Dir.pwd == '/'
-			nil
-		else
-			Dir.chdir('..') do
-				get_working_dir
-			end
-		end
-	end
+  if Dir.exist?('.mbrew')
+    Dir.pwd
+  else
+    if Dir.pwd == '/'
+      nil
+    else
+      Dir.chdir('..') do
+        get_working_dir
+      end
+    end
+  end
 end
 
 working_dir = get_working_dir
@@ -50,225 +50,225 @@ mbrew = TheFox::MBrew::MBrew.new(working_dir)
 
 command1 = ARGV.shift
 case command1
-when 'clone'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1} <url> [<dir>]"
-		opts.separator('')
-		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
-			puts
-			exit 3
-		end
-	end
-	ARGV << '-h' if ARGV.count == 0
-	args = opts.parse(ARGV)
-	url = args.shift
-	dir = args.shift
-	
-	puts "Cloning library '#{url}' ..."
-	
-	mbrew.clone(url, dir)
-when 'init'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1} <dir>"
-		opts.separator('')
-		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
-			puts
-			exit 3
-		end
-	end
-	args = opts.parse(ARGV)
-	dir = args.shift || '.'
-	
-	mbrew.init(dir)
-when 'push'
-when 'add'
-	options = {
-		:recursive => false,
-	}
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1} [<options>] <path...>"
-		opts.separator('')
-		
-		opts.on('-R', '--recursive', 'Remove all tags.') do |v|
-			options[:recursive] = true
-		end
-		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
-			puts
-			exit 3
-		end
-	end
-	ARGV << '-h' if ARGV.count == 0
-	paths = opts.parse(ARGV)
-	
-	mbrew.add(paths, options[:recursive])
-when 'commit'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1}"
-		opts.separator('')
-		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
-			puts
-			exit 3
-		end
-	end
-	opts.parse(ARGV)
-	
-	mbrew.commit
-when 'status'
-	opts = OptionParser.new do |opts|
-		opts.banner = "Usage: mbrew #{command1}"
-		opts.separator('')
-		
-		opts.on_tail('-h', '--help', 'Show this message.') do
-			puts opts
-			puts
-			exit 3
-		end
-	end
-	opts.parse(ARGV)
-	
-	mbrew.status
-when 'list'
-	options = {
-		:files => false,
-	}
-	opts = OptionParser.new do |o|
-		o.banner = "Usage: mbrew #{command1}"
-		o.separator('')
-		
-		o.on('-f', '--files', 'List files are available by the index.') do |v|
-			options[:files] = true
-		end
-		
-		o.on_tail('-h', '--help', 'Show this message.') do
-			puts o
-			puts
-			exit 3
-		end
-	end
-	#ARGV << '-h' if ARGV.count == 0
-	opts.parse(ARGV)
-	
-	list = mbrew.list(options[:files])
-	
-	if list.count > 0
-		puts list
-	end
-when 'info'
-	opts = OptionParser.new do |o|
-		o.banner = "Usage: mbrew #{command1} <names...>"
-		o.separator('')
-		
-		o.on_tail('-h', '--help', 'Show this message.') do
-			puts o
-			puts
-			exit 3
-		end
-	end
-	ARGV << '-h' if ARGV.count == 0
-	artist_names = opts.parse(ARGV)
-	
-	mbrew.info(artist_names).each do |search_name, artist|
-		if artist[:songs] > 0
-			puts "Artist: '#{search_name}'"
-			puts "\t Name:  #{artist[:name]}"
-			puts "\t Songs: #{artist[:songs]}"
-			puts
-		else
-			puts "Artist: '#{search_name}' not found."
-		end
-	end
-when 'search'
-	opts = OptionParser.new do |o|
-		o.banner = "Usage: mbrew #{command1} <names...>"
-		o.separator('')
-		
-		o.on_tail('-h', '--help', 'Show this message.') do
-			puts o
-			puts
-			exit 3
-		end
-	end
-	ARGV << '-h' if ARGV.count == 0
-	artist_names = opts.parse(ARGV)
-	
-	mbrew.search
-	
-	printf 'Search ...'
-	found_names = mbrew.search(artist_names)
-	puts ' done'
-	puts
-	if found_names.count > 0
-		puts 'Found:'
-		puts found_names
-	else
-		puts 'Nothing found.'
-	end
-when 'install'
-	opts = OptionParser.new do |o|
-		o.banner = "Usage: mbrew #{command1} <names...>"
-		o.separator('')
-		
-		o.on_tail('-h', '--help', 'Show this message.') do
-			puts o
-			puts
-			exit 3
-		end
-	end
-	ARGV << '-h' if ARGV.count == 0
-	artist_names = opts.parse(ARGV)
-	
-	mbrew.install(artist_names)
-when 'uninstall'
-	opts = OptionParser.new do |o|
-		o.banner = "Usage: mbrew #{command1} <names...>"
-		o.separator('')
-		
-		o.on_tail('-h', '--help', 'Show this message.') do
-			puts o
-			puts
-			exit 3
-		end
-	end
-	ARGV << '-h' if ARGV.count == 0
-	artist_names = opts.parse(ARGV)
-	
-	mbrew.uninstall(artist_names)
-when 'update'
-	opts = OptionParser.new do |o|
-		o.banner = "Usage: mbrew #{command1}"
-		o.separator('')
-		
-		o.on_tail('-h', '--help', 'Show this message.') do
-			puts o
-			puts
-			exit 3
-		end
-	end
-	# ARGV << '-h' if ARGV.count == 0
-	opts.parse(ARGV)
-	
-	mbrew.update
-when 'upgrade'
-	opts = OptionParser.new do |o|
-		o.banner = "Usage: mbrew #{command1}"
-		o.separator('')
-		
-		o.on_tail('-h', '--help', 'Show this message.') do
-			puts o
-			puts
-			exit 3
-		end
-	end
-	# ARGV << '-h' if ARGV.count == 0
-	opts.parse(ARGV)
-	
-	mbrew.upgrade
+  when 'clone'
+    opts = OptionParser.new do |opts|
+      opts.banner = "Usage: mbrew #{command1} <url> [<dir>]"
+      opts.separator('')
+
+      opts.on_tail('-h', '--help', 'Show this message.') do
+        puts opts
+        puts
+        exit 3
+      end
+    end
+    ARGV << '-h' if ARGV.count == 0
+    args = opts.parse(ARGV)
+    url = args.shift
+    dir = args.shift
+
+    puts "Cloning library '#{url}' ..."
+
+    mbrew.clone(url, dir)
+  when 'init'
+    opts = OptionParser.new do |opts|
+      opts.banner = "Usage: mbrew #{command1} <dir>"
+      opts.separator('')
+
+      opts.on_tail('-h', '--help', 'Show this message.') do
+        puts opts
+        puts
+        exit 3
+      end
+    end
+    args = opts.parse(ARGV)
+    dir = args.shift || '.'
+
+    mbrew.init(dir)
+  when 'push'
+  when 'add'
+    options = {
+      :recursive => false,
+    }
+    opts = OptionParser.new do |opts|
+      opts.banner = "Usage: mbrew #{command1} [<options>] <path...>"
+      opts.separator('')
+
+      opts.on('-R', '--recursive', 'Remove all tags.') do |v|
+        options[:recursive] = true
+      end
+
+      opts.on_tail('-h', '--help', 'Show this message.') do
+        puts opts
+        puts
+        exit 3
+      end
+    end
+    ARGV << '-h' if ARGV.count == 0
+    paths = opts.parse(ARGV)
+
+    mbrew.add(paths, options[:recursive])
+  when 'commit'
+    opts = OptionParser.new do |opts|
+      opts.banner = "Usage: mbrew #{command1}"
+      opts.separator('')
+
+      opts.on_tail('-h', '--help', 'Show this message.') do
+        puts opts
+        puts
+        exit 3
+      end
+    end
+    opts.parse(ARGV)
+
+    mbrew.commit
+  when 'status'
+    opts = OptionParser.new do |opts|
+      opts.banner = "Usage: mbrew #{command1}"
+      opts.separator('')
+
+      opts.on_tail('-h', '--help', 'Show this message.') do
+        puts opts
+        puts
+        exit 3
+      end
+    end
+    opts.parse(ARGV)
+
+    mbrew.status
+  when 'list'
+    options = {
+      :files => false,
+    }
+    opts = OptionParser.new do |o|
+      o.banner = "Usage: mbrew #{command1}"
+      o.separator('')
+
+      o.on('-f', '--files', 'List files are available by the index.') do |v|
+        options[:files] = true
+      end
+
+      o.on_tail('-h', '--help', 'Show this message.') do
+        puts o
+        puts
+        exit 3
+      end
+    end
+    #ARGV << '-h' if ARGV.count == 0
+    opts.parse(ARGV)
+
+    list = mbrew.list(options[:files])
+
+    if list.count > 0
+      puts list
+    end
+  when 'info'
+    opts = OptionParser.new do |o|
+      o.banner = "Usage: mbrew #{command1} <names...>"
+      o.separator('')
+
+      o.on_tail('-h', '--help', 'Show this message.') do
+        puts o
+        puts
+        exit 3
+      end
+    end
+    ARGV << '-h' if ARGV.count == 0
+    artist_names = opts.parse(ARGV)
+
+    mbrew.info(artist_names).each do |search_name, artist|
+      if artist[:songs] > 0
+        puts "Artist: '#{search_name}'"
+        puts "\t Name:  #{artist[:name]}"
+        puts "\t Songs: #{artist[:songs]}"
+        puts
+      else
+        puts "Artist: '#{search_name}' not found."
+      end
+    end
+  when 'search'
+    opts = OptionParser.new do |o|
+      o.banner = "Usage: mbrew #{command1} <names...>"
+      o.separator('')
+
+      o.on_tail('-h', '--help', 'Show this message.') do
+        puts o
+        puts
+        exit 3
+      end
+    end
+    ARGV << '-h' if ARGV.count == 0
+    artist_names = opts.parse(ARGV)
+
+    mbrew.search
+
+    printf 'Search ...'
+    found_names = mbrew.search(artist_names)
+    puts ' done'
+    puts
+    if found_names.count > 0
+      puts 'Found:'
+      puts found_names
+    else
+      puts 'Nothing found.'
+    end
+  when 'install'
+    opts = OptionParser.new do |o|
+      o.banner = "Usage: mbrew #{command1} <names...>"
+      o.separator('')
+
+      o.on_tail('-h', '--help', 'Show this message.') do
+        puts o
+        puts
+        exit 3
+      end
+    end
+    ARGV << '-h' if ARGV.count == 0
+    artist_names = opts.parse(ARGV)
+
+    mbrew.install(artist_names)
+  when 'uninstall'
+    opts = OptionParser.new do |o|
+      o.banner = "Usage: mbrew #{command1} <names...>"
+      o.separator('')
+
+      o.on_tail('-h', '--help', 'Show this message.') do
+        puts o
+        puts
+        exit 3
+      end
+    end
+    ARGV << '-h' if ARGV.count == 0
+    artist_names = opts.parse(ARGV)
+
+    mbrew.uninstall(artist_names)
+  when 'update'
+    opts = OptionParser.new do |o|
+      o.banner = "Usage: mbrew #{command1}"
+      o.separator('')
+
+      o.on_tail('-h', '--help', 'Show this message.') do
+        puts o
+        puts
+        exit 3
+      end
+    end
+    # ARGV << '-h' if ARGV.count == 0
+    opts.parse(ARGV)
+
+    mbrew.update
+  when 'upgrade'
+    opts = OptionParser.new do |o|
+      o.banner = "Usage: mbrew #{command1}"
+      o.separator('')
+
+      o.on_tail('-h', '--help', 'Show this message.') do
+        puts o
+        puts
+        exit 3
+      end
+    end
+    # ARGV << '-h' if ARGV.count == 0
+    opts.parse(ARGV)
+
+    mbrew.upgrade
 end
