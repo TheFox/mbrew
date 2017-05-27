@@ -2,13 +2,13 @@ before_script:
     - gem update --system
     - gem install bundler -v '~>1.13'
     - bundler --version
-    - make
+    - bundler install
 
 stages:
     - release
 
 release:
-    image: ruby:2.3
+    image: ruby:2.4
     stage: release
     environment: gem
     only:
@@ -16,4 +16,4 @@ release:
     script:
         - mkdir -p ~/.gem
         - 'printf "%s\n:rubygems_api_key: %s" "---" "${RUBYGEMSORG_API_KEY}" > ~/.gem/credentials; chmod 0600 ~/.gem/credentials'
-        - make release
+        - ./bin/release.sh

@@ -1,4 +1,5 @@
-.setup
 CHANGELOG-*.txt
 Gemfile.lock
-/releases/
+/tmp/
+/.idea/
+.env

@@ -68,7 +68,6 @@ module TheFox
               config_yml = YAML::Store.new('config.yml')
               config_yml.transaction do
                 config_yml['mbrew'] = {
-                  'release_id' => TheFox::MBrew::RELEASE_ID,
                   'version' => TheFox::MBrew::VERSION,
                 }
                 config_yml['origin'] = {
@@ -129,7 +128,6 @@ module TheFox
               config_yml = YAML::Store.new('config.yml')
               config_yml.transaction do
                 config_yml['mbrew'] = {
-                  'release_id' => TheFox::MBrew::RELEASE_ID,
                   'version' => TheFox::MBrew::VERSION,
                 }
                 config_yml['origin'] = {
