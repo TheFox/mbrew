@@ -1,5 +1,9 @@
 # Release Notes for MusicBrew v0.x
 
+## Unreleased v0.2.0
+
+- Removed Makefiles.
+
 ## v0.1.3
 
 - Ruby Common Big 2016-04-09

@@ -2,6 +2,13 @@
 
 MusicBrew is a combination of Spotify and [Homebrew](http://brew.sh/). Like a [package manager](https://en.wikipedia.org/wiki/Package_manager) for software but for music. It's made to use it via [comand-line](https://en.wikipedia.org/wiki/Command-line_interface). You can install all songs by a specified band, for example from ABBA via `music install ABBA`. The .mp3 files will be downloaded from a central server to your local music collection. The search acts like on a traditional package manager, for example via `music search AC/DC`. Like on Homebrew, each song file gets a *formula*/meta file. These files will be searched locally when the search command is used. On `music update` all meta files will be updated through Git. The `music upgrade` command is used to upgrade all existing artists. New songs will be downloaded. Since it's not legal in most of the countries on earth to copy and distribute copyright protected music it's highly recommended to encrypt the .mp3 files. This will be done with the best encryption software ever been made: [GnuPG](https://gnupg.org/). Beside the aspect of the copyright there is also the aspect to encrypt your files when using blanc HTTP (instead of HTTPS).
 
+## Project Outlines
+
+The project outlines as described in my blog post about [Open Source Software Collaboration](https://blog.fox21.at/2019/02/21/open-source-software-collaboration.html).
+
+- The main purpose of this software is to sync .mp3 files between computers, in a way like [Homebrew](http://brew.sh/) is doing it with packages and its metadata.
+- This list is open. Feel free to request features.
+
 ## Documentation
 
 For all kinds of documentation see [`mbrew(1)`](http://mbrew.fox21.at/).
